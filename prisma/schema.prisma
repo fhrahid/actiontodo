@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                  String    @id @default(cuid())
+  name                String
+  email               String    @unique
+  notificationEmail   String?
+  password            String?
+  image               String?
+  role                String    @default("user")
+
+  xp                  Int       @default(0)
+  level               Int       @default(1)
+  streak              Int       @default(0)
+  gems                Int       @default(0)
+  theme               String    @default("basic")
+  totalTasksCompleted Int       @default(0)
+  completedDates      String[]
+
+  isBanned            Boolean   @default(false)
+  banExpiresAt        DateTime?
+  cheatWarnings       Int       @default(0)
+  isCheater           Boolean   @default(false)
+  hiddenFromRanking   Boolean   @default(false)
+
+  luck                Int       @default(0)
+  gachaPity           Int       @default(0)
+  dropPity            Int       @default(0)
+
+  provider            String?
+  providerAccountId   String?
+
+  activeAvatarId      String?
+  activeCardDesignId  String?
+  activeHeadId        String?
+  activeFaceId        String?
+  activeBodyId        String?
+  activeAuraId        String?
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  tasks               Task[]
+  inventory           UserItem[]
+  banLogs             BanLog[]
+  weeklyAwards        WeeklyAward[]
+}
+
+model Task {
+  id              String    @id @default(cuid())
+  title           String
+  description     String?
+  category        String
+  priority        String
+  dueDate         DateTime
+  completed       Boolean   @default(false)
+  completedAt     DateTime?
+  reminderEnabled Boolean   @default(false)
+  reminderInterval Int     @default(0)
+  lastReminderSent DateTime?
+
+  gachaRarity     String    @default("common")
+  xpAwarded       Int       @default(0)
+
+  isFlagged       Boolean   @default(false)
+
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model ItemTemplate {
+  id              String    @id @default(cuid())
+  name            String
+  type            String
+  tier            String
+  description     String?
+  imageData       String
+  gemPrice        Int?
+  equipSlot       String?
+  isGachaEligible Boolean   @default(true)
+  isActive        Boolean   @default(true)
+  requiredLevel   Int       @default(0)
+  requiredTasks   Int       @default(0)
+  createdAt       DateTime  @default(now())
+
+  userItems       UserItem[]
+}
+
+model UserItem {
+  id              String    @id @default(cuid())
+  userId          String
+  itemTemplateId  String
+  equipped        Boolean   @default(false)
+  obtainedVia     String    @default("purchase")
+  obtainedAt      DateTime  @default(now())
+
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itemTemplate    ItemTemplate  @relation(fields: [itemTemplateId], references: [id])
+
+  @@unique([userId, itemTemplateId])
+}
+
+model BanLog {
+  id          String    @id @default(cuid())
+  userId      String
+  reason      String
+  duration    String
+  bannedAt    DateTime  @default(now())
+  expiresAt   DateTime?
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WeeklyAward {
+  id          String    @id @default(cuid())
+  userId      String
+  weekStart   DateTime
+  weekEnd     DateTime
+  gemsAwarded Int
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
