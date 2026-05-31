@@ -122,7 +122,6 @@ export default function AdminPage() {
   const [weeklyHistory, setWeeklyHistory] = useState<WeeklyEntry[]>([]);
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const spinnerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -131,7 +130,8 @@ export default function AdminPage() {
         if (res.ok) {
           const data = await res.json();
           setSession(data);
-          if (data?.user?.role !== "admin") {
+          if (!data?.user?.role || data.user.role !== "admin") {
+            console.log("Admin check failed. Session data:", JSON.stringify(data?.user));
             window.location.href = "/dashboard";
             return;
           }
@@ -139,7 +139,8 @@ export default function AdminPage() {
           window.location.href = "/login";
           return;
         }
-      } catch {
+      } catch (err) {
+        console.error("Admin session check error:", err);
         window.location.href = "/login";
         return;
       } finally {
@@ -367,19 +368,6 @@ export default function AdminPage() {
   // === ANIMATION EFFECTS ===
 
   useEffect(() => {
-    if (!spinnerRef.current) return;
-    try {
-      const a = animate(spinnerRef.current, {
-        rotate: 360,
-        duration: 1000,
-        loop: true,
-        ease: "linear",
-      });
-      return () => { a.revert(); };
-    } catch {}
-  }, []);
-
-  useEffect(() => {
     if (!rootRef.current) return;
     try {
       const scope = createScope({ root: rootRef.current }).add(() => {
@@ -535,9 +523,7 @@ export default function AdminPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#0d0d1a" }}>
-        <div ref={spinnerRef} className="text-4xl">
-          <SettingsIcon size={32} className="text-cyan-400" />
-        </div>
+        <SettingsIcon size={32} className="text-cyan-400" />
       </div>
     );
   }
