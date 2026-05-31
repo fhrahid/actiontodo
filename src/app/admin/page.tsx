@@ -551,7 +551,7 @@ export default function AdminPage() {
       <div
         ref={rootRef}
         data-animate="header"
-        style={{ opacity: 0 }}
+        
         className="max-w-7xl mx-auto"
       >
         <h1 className="text-3xl md:text-4xl font-black mb-6 tracking-wider" style={{ color: "#7c4dff" }}>
@@ -575,7 +575,7 @@ export default function AdminPage() {
         </div>
 
         {activeTab === "overview" && (
-          <div data-animate="tab-content" style={{ opacity: 0 }} className="space-y-6">
+          <div data-animate="tab-content"  className="space-y-6">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {statCards.map((card, i) => (
                 <div
@@ -620,7 +620,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === "users" && (
-          <div data-animate="tab-content" style={{ opacity: 0 }} className="space-y-4">
+          <div data-animate="tab-content"  className="space-y-4">
             <div className="card-anime p-4 rounded-none border-2" style={{ backgroundColor: "#1a1a2e", borderColor: "#2a2a3e" }}>
               <input
                 type="text"
@@ -827,7 +827,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === "items" && (
-          <div data-animate="tab-content" style={{ opacity: 0 }} className="space-y-4">
+          <div data-animate="tab-content"  className="space-y-4">
             <div className="card-anime p-4 rounded-none border-2" style={{ backgroundColor: "#1a1a2e", borderColor: "#2a2a3e" }}>
               <h3 className="font-black text-white mb-3 tracking-wider">CREATE NEW ITEM</h3>
               <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
@@ -967,7 +967,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === "gacha" && (
-          <div data-animate="tab-content" style={{ opacity: 0 }} className="space-y-6">
+          <div data-animate="tab-content"  className="space-y-6">
             <div className="card-anime p-6 rounded-none border-2" style={{ backgroundColor: "#1a1a2e", borderColor: "#2a2a3e" }}>
               <h2 className="text-lg font-black text-white mb-4 tracking-wider">CURRENT GACHA POOL</h2>
               {gachaPool.length === 0 ? (
@@ -1031,7 +1031,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === "bans" && (
-          <div data-animate="tab-content" style={{ opacity: 0 }} className="space-y-6">
+          <div data-animate="tab-content"  className="space-y-6">
             <div className="card-anime p-6 rounded-none border-2" style={{ backgroundColor: "#1a1a2e", borderColor: "#ff1744" }}>
               <h2 className="text-lg font-black text-white mb-4 tracking-wider">MANUAL BAN</h2>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -1142,7 +1142,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === "weekly" && (
-          <div data-animate="tab-content" style={{ opacity: 0 }} className="space-y-6">
+          <div data-animate="tab-content"  className="space-y-6">
             <div className="card-anime p-6 rounded-none border-2" style={{ backgroundColor: "#1a1a2e", borderColor: "#2a2a3e" }}>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-black text-white tracking-wider">
