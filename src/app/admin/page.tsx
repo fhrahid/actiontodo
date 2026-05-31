@@ -368,146 +368,166 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (!spinnerRef.current) return;
-    const a = animate(spinnerRef.current, {
-      rotate: 360,
-      duration: 1000,
-      loop: true,
-      ease: "linear",
-    });
-    return () => { a.revert(); };
+    try {
+      const a = animate(spinnerRef.current, {
+        rotate: 360,
+        duration: 1000,
+        loop: true,
+        ease: "linear",
+      });
+      return () => { a.revert(); };
+    } catch {}
   }, []);
 
   useEffect(() => {
     if (!rootRef.current) return;
-    const scope = createScope({ root: rootRef.current }).add(() => {
-      fadeInUp('[data-animate="header"]');
-    });
-    return () => scope.revert();
+    try {
+      const scope = createScope({ root: rootRef.current }).add(() => {
+        fadeInUp('[data-animate="header"]');
+      });
+      return () => scope.revert();
+    } catch {}
   }, []);
 
   useEffect(() => {
     if (!rootRef.current) return;
-    const scope = createScope({ root: rootRef.current }).add(() => {
-      fadeIn('[data-animate="tab-content"]');
-    });
-    return () => scope.revert();
+    try {
+      const scope = createScope({ root: rootRef.current }).add(() => {
+        fadeIn('[data-animate="tab-content"]');
+      });
+      return () => scope.revert();
+    } catch {}
   }, [activeTab]);
 
   useEffect(() => {
     if (!rootRef.current || activeTab !== "overview") return;
-    const scope = createScope({ root: rootRef.current }).add(() => {
-      animate('[data-animate="stat-card"]', {
-        opacity: [0, 1],
-        translateY: [20, 0],
-        delay: stagger(100),
-        duration: 500,
-        ease: "outExpo",
+    try {
+      const scope = createScope({ root: rootRef.current }).add(() => {
+        animate('[data-animate="stat-card"]', {
+          opacity: [0, 1],
+          translateY: [20, 0],
+          delay: stagger(100),
+          duration: 500,
+          ease: "outExpo",
+        });
+        animate('[data-animate="activity-entry"]', {
+          opacity: [0, 1],
+          translateX: [-10, 0],
+          delay: stagger(50),
+          duration: 500,
+          ease: "outExpo",
+        });
       });
-      animate('[data-animate="activity-entry"]', {
-        opacity: [0, 1],
-        translateX: [-10, 0],
-        delay: stagger(50),
-        duration: 500,
-        ease: "outExpo",
-      });
-    });
-    return () => scope.revert();
+      return () => scope.revert();
+    } catch {}
   }, [activeTab, overviewStats, recentActivity]);
 
   useEffect(() => {
     if (!rootRef.current || activeTab !== "users") return;
-    const scope = createScope({ root: rootRef.current }).add(() => {
-      animate('[data-animate="user-row"]', {
-        opacity: [0, 1],
-        translateY: [10, 0],
-        delay: stagger(30),
-        duration: 500,
-        ease: "outExpo",
+    try {
+      const scope = createScope({ root: rootRef.current }).add(() => {
+        animate('[data-animate="user-row"]', {
+          opacity: [0, 1],
+          translateY: [10, 0],
+          delay: stagger(30),
+          duration: 500,
+          ease: "outExpo",
+        });
       });
-    });
-    return () => scope.revert();
+      return () => scope.revert();
+    } catch {}
   }, [activeTab, users, userSearch]);
 
   useEffect(() => {
     if (!rootRef.current || !editingUser) return;
-    const scope = createScope({ root: rootRef.current }).add(() => {
-      scaleIn('[data-animate="edit-modal"]');
-    });
-    return () => scope.revert();
+    try {
+      const scope = createScope({ root: rootRef.current }).add(() => {
+        scaleIn('[data-animate="edit-modal"]');
+      });
+      return () => scope.revert();
+    } catch {}
   }, [editingUser]);
 
   useEffect(() => {
     if (!rootRef.current || activeTab !== "items") return;
-    const scope = createScope({ root: rootRef.current }).add(() => {
-      animate('[data-animate="item-card"]', {
-        opacity: [0, 1],
-        scale: [0.95, 1],
-        delay: stagger(30),
-        duration: 500,
-        ease: "outExpo",
+    try {
+      const scope = createScope({ root: rootRef.current }).add(() => {
+        animate('[data-animate="item-card"]', {
+          opacity: [0, 1],
+          scale: [0.95, 1],
+          delay: stagger(30),
+          duration: 500,
+          ease: "outExpo",
+        });
       });
-    });
-    return () => scope.revert();
+      return () => scope.revert();
+    } catch {}
   }, [activeTab, items, itemFilterType, itemFilterTier]);
 
   useEffect(() => {
     if (!rootRef.current || activeTab !== "gacha") return;
-    const root = rootRef.current;
-    const scope = createScope({ root }).add(() => {
-      animate('[data-animate="gacha-item"]', {
-        opacity: [0, 1],
-        scale: [0.9, 1],
-        delay: stagger(50),
-        duration: 500,
-        ease: "outExpo",
+    try {
+      const root = rootRef.current;
+      const scope = createScope({ root }).add(() => {
+        animate('[data-animate="gacha-item"]', {
+          opacity: [0, 1],
+          scale: [0.9, 1],
+          delay: stagger(50),
+          duration: 500,
+          ease: "outExpo",
+        });
+        root.querySelectorAll<HTMLElement>('[data-animate="drop-bar"]').forEach((bar) => {
+          const targetWidth = bar.dataset.width;
+          if (targetWidth) {
+            animate(bar, {
+              width: targetWidth,
+              duration: 800,
+              ease: "outExpo",
+            });
+          }
+        });
       });
-      root.querySelectorAll<HTMLElement>('[data-animate="drop-bar"]').forEach((bar) => {
-        const targetWidth = bar.dataset.width;
-        if (targetWidth) {
-          animate(bar, {
-            width: targetWidth,
-            duration: 800,
-            ease: "outExpo",
-          });
-        }
-      });
-    });
-    return () => scope.revert();
+      return () => scope.revert();
+    } catch {}
   }, [activeTab, gachaPool, dropStats]);
 
   useEffect(() => {
     if (!rootRef.current || activeTab !== "bans") return;
-    const scope = createScope({ root: rootRef.current }).add(() => {
-      animate('[data-animate="ban-row"]', {
-        opacity: [0, 1],
-        translateY: [10, 0],
-        delay: stagger(30),
-        duration: 500,
-        ease: "outExpo",
+    try {
+      const scope = createScope({ root: rootRef.current }).add(() => {
+        animate('[data-animate="ban-row"]', {
+          opacity: [0, 1],
+          translateY: [10, 0],
+          delay: stagger(30),
+          duration: 500,
+          ease: "outExpo",
+        });
       });
-    });
-    return () => scope.revert();
+      return () => scope.revert();
+    } catch {}
   }, [activeTab, bans]);
 
   useEffect(() => {
     if (!rootRef.current || activeTab !== "weekly") return;
-    const scope = createScope({ root: rootRef.current }).add(() => {
-      animate('[data-animate="weekly-top"]', {
-        opacity: [0, 1],
-        translateX: [-20, 0],
-        delay: stagger(50),
-        duration: 500,
-        ease: "outExpo",
+    try {
+      const scope = createScope({ root: rootRef.current }).add(() => {
+        animate('[data-animate="weekly-top"]', {
+          opacity: [0, 1],
+          translateX: [-20, 0],
+          delay: stagger(50),
+          duration: 500,
+          ease: "outExpo",
+        });
+        animate('[data-animate="weekly-history"]', {
+          opacity: [0, 1],
+          translateY: [10, 0],
+          delay: stagger(30),
+          duration: 500,
+          ease: "outExpo",
+        });
       });
-      animate('[data-animate="weekly-history"]', {
-        opacity: [0, 1],
-        translateY: [10, 0],
-        delay: stagger(30),
-        duration: 500,
-        ease: "outExpo",
-      });
-    });
-    return () => scope.revert();
+      return () => scope.revert();
+    } catch {}
   }, [activeTab, weeklyTop, weeklyHistory]);
 
   // === RENDER ===
